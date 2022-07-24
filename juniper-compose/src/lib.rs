@@ -82,6 +82,12 @@
 //! composite_object!(Query<Context = MyCustomContext>(UserQueries, TaskQueries));
 //! ```
 //!
+//! Visibility specifier for generated type is supported:
+//!
+//! ```
+//! composite_object!(pub(crate) Query<Context = MyCustomContext>(UserQueries, TaskQueries));
+//! ```
+//!
 //! Custom scalars are currently not supported, but will be added if requested.
 
 use juniper::{GraphQLTypeAsync, Type};
@@ -103,12 +109,14 @@ pub use juniper_compose_macros::composable_object;
 
 /// Composes an object type from multiple [ComposableObject](ComposableObject)s.
 /// Custom context type may be specified, otherwise defaults to `()`.
+/// Custom visibility fro generated type may be specified.
 ///
 /// ## Examples
 ///
 /// ```
 /// composite_object!(Query(UserQueries, TaskQueries));
 /// composite_object!(Mutation<Context = MyContextType>(UserMutations, TaskMutations));
+/// composite_object!(pub Query(UserQueries, TaskQueries));
 /// ```
 pub use juniper_compose_macros::composite_object;
 

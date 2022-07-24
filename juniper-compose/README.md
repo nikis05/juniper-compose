@@ -9,7 +9,7 @@ Merge multiple [Juniper](https://docs.rs/juniper) object definitions into a sing
 You are building a GraphQL server using Juniper. At some point you realize that you have gigantic
 Query and Mutation types:
 
-```
+```rust
 #[derive(Default)]
 struct Query;
 
@@ -41,7 +41,7 @@ hard to do, but this crate can help you.
 
 ## Usage
 
-```
+```rust
 #[derive(Default)]
 struct UserQueries;
 
@@ -77,8 +77,14 @@ composite_object!(Query(UserQueries, TaskQueries));
 
 Custom contexts are supported:
 
-```
+```rust
 composite_object!(Query<Context = MyCustomContext>(UserQueries, TaskQueries));
+```
+
+Visibility specifier for generated type is supported:
+
+```rust
+composite_object!(pub(crate) Query<Context = MyCustomContext>(UserQueries, TaskQueries));
 ```
 
 Custom scalars are currently not supported, but will be added if requested.

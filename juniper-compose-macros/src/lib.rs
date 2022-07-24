@@ -11,7 +11,7 @@ use syn::{
     parse2, parse_macro_input,
     punctuated::Punctuated,
     token::{Comma, Paren},
-    Error, Ident, ImplItem, ItemImpl, LitStr, Path, Result, Token, Type,
+    Error, Ident, ImplItem, ItemImpl, LitStr, Path, Result, Token, Type, Visibility,
 };
 
 #[proc_macro_attribute]
@@ -29,10 +29,11 @@ pub fn composite_object(input: proc_macro::TokenStream) -> proc_macro::TokenStre
     let context = input
         .context_ty
         .map_or_else(|| parse2(quote! { () }).unwrap(), |input| input.ty);
-    expand_composite_object(&input.ident, &context, &input.composables).into()
+    expand_composite_object(&input.vis, &input.ident, &context, &input.composables).into()
 }
 
 struct CompositeObjectInput {
+    vis: Visibility,
     ident: Ident,
     context_ty: Option<CompositeObjectCustomContextType>,
     #[allow(dead_code)]
@@ -42,6 +43,7 @@ struct CompositeObjectInput {
 
 impl Parse for CompositeObjectInput {
     fn parse(input: syn::parse::ParseStream) -> Result<Self> {
+        let vis = input.parse()?;
         let ident = input.parse()?;
         let context_ty = if input.peek(Token![<]) {
             Some(input.parse()?)
@@ -51,6 +53,7 @@ impl Parse for CompositeObjectInput {
         let composables;
         let paren = parenthesized!(composables in input);
         Ok(Self {
+            vis,
             ident,
             context_ty,
             paren,
@@ -123,6 +126,7 @@ fn expand_composable_object(item_impl: &ItemImpl) -> TokenStream {
 }
 
 fn expand_composite_object<P>(
+    vis: &Visibility,
     name: &Ident,
     context: &Type,
     composables: &Punctuated<Path, P>,
@@ -135,7 +139,7 @@ fn expand_composite_object<P>(
         expand_impl_graphql_value_async(name, &name_lit, composables.iter());
     quote! {
         #[derive(::std::default::Default)]
-        struct #name;
+        #vis struct #name;
         #impl_graphql_type
         #impl_graphql_value
         #impl_graphql_value_async
