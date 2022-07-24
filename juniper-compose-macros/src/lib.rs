@@ -135,7 +135,7 @@ fn expand_composite_object<P>(
         expand_impl_graphql_value_async(name, &name_lit, composables.iter());
     quote! {
         #[derive(::std::default::Default)]
-        struct #name;
+        pub struct #name;
         #impl_graphql_type
         #impl_graphql_value
         #impl_graphql_value_async
