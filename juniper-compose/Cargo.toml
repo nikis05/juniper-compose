@@ -2,7 +2,7 @@
 name = "juniper-compose"
 description = "Merge multiple Juniper object definitions into one"
 categories = ["web-programming"]
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Kit Isaev <14875494+nikis05@users.noreply.github.com>"]
 license = "MIT"
 edition = "2018"
@@ -12,4 +12,4 @@ keywords = ["juniper", "compose", "merge"]
 
 [dependencies]
 juniper = { version = "0.15.9" }
-juniper-compose-macros = { version = "0.0.2", path = "../juniper-compose-macros" }
+juniper-compose-macros = { version = "0.0.3", path = "../juniper-compose-macros" }
