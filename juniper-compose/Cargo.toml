@@ -11,5 +11,5 @@ repository = "https://github.com/nikis05/juniper-compose"
 keywords = ["juniper", "compose", "merge"]
 
 [dependencies]
-juniper = { version = "0.15.9" }
+juniper = { git = "https://github.com/graphql-rust/juniper", branch = "master" }
 juniper-compose-macros = { version = "0.0.3", path = "../juniper-compose-macros" }
