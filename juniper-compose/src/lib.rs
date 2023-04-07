@@ -137,7 +137,7 @@ pub fn type_to_owned<'a>(ty: &Type<'a>) -> Type<'static> {
     match ty {
         Type::Named(name) => Type::Named(Cow::Owned(name.to_string())),
         Type::NonNullNamed(name) => Type::NonNullNamed(Cow::Owned(name.to_string())),
-        Type::List(inner) => Type::List(Box::new(type_to_owned(inner))),
-        Type::NonNullList(inner) => Type::NonNullList(Box::new(type_to_owned(inner))),
+        Type::List(inner, expected_size) => Type::List(Box::new(type_to_owned(inner)), *expected_size),
+        Type::NonNullList(inner, expected_size) => Type::NonNullList(Box::new(type_to_owned(inner)), *expected_size),
     }
 }
